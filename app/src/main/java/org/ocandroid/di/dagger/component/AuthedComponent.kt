@@ -1,26 +1,18 @@
 package org.ocandroid.di.dagger.component
 
+import androidx.fragment.app.FragmentFactory
 import dagger.BindsInstance
-import dagger.Subcomponent
-import org.ocandroid.di.auth.view.AuthedActivity
-import org.ocandroid.di.dagger.AuthedScope
+import dagger.hilt.DefineComponent
+import dagger.hilt.android.components.ActivityComponent
 import org.ocandroid.di.dagger.UserId
 import org.ocandroid.di.dagger.UserName
-import org.ocandroid.di.dagger.module.AuthedFactoryModule
-import org.ocandroid.di.dagger.module.AuthedFragmentModule
-import org.ocandroid.di.dagger.module.AuthedViewModelModule
+import dagger.hilt.InstallIn
+import dagger.hilt.EntryPoint
 
-@AuthedScope
-@Subcomponent(modules = [
-    AuthedViewModelModule::class,
-    AuthedFactoryModule::class,
-    AuthedFragmentModule::class
-])
+@DefineComponent(parent = ActivityComponent::class)
 interface AuthedComponent {
 
-    fun inject(authedActivity: AuthedActivity)
-
-    @Subcomponent.Builder
+    @DefineComponent.Builder
     interface Builder {
         @BindsInstance
         fun userId(@UserId userId: String): Builder
@@ -30,4 +22,10 @@ interface AuthedComponent {
 
         fun build(): AuthedComponent
     }
+}
+
+@EntryPoint
+@InstallIn(AuthedComponent::class)
+interface AuthedEntryPoint {
+    @UserId fun getUserId(): String
 }

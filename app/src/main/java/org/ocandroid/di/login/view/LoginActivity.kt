@@ -1,12 +1,10 @@
 package org.ocandroid.di.login.view
 
-import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.view.View
-import org.ocandroid.di.application.DIApplication
-import org.ocandroid.di.factory.DIViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 import org.ocandroid.di.auth.view.AuthedActivity
 import org.ocandroid.di.databinding.ActivityLoginBinding
 import org.ocandroid.di.login.presentation.LoginViewModel
@@ -14,6 +12,7 @@ import org.ocandroid.di.util.Logger
 import org.ocandroid.di.util.Toaster
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var loginViewModel: LoginViewModel
@@ -21,18 +20,17 @@ class LoginActivity : AppCompatActivity() {
 
     @Inject lateinit var logger: Logger
     @Inject lateinit var toaster: Toaster
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
+    //@Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        (application as DIApplication).applicationComponent.inject(this)
+        //(application as DIApplication).applicationComponent.inject(this)
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        loginViewModel = ViewModelProvider(this, viewModelFactory)
-                .get(LoginViewModel::class.java)
+        loginViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
 
 
         loginViewModel.viewState.observe(this@LoginActivity, { viewState ->

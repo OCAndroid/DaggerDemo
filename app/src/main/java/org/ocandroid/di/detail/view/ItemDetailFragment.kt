@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import dagger.hilt.android.AndroidEntryPoint
 import org.ocandroid.di.databinding.ItemDetailFragmentBinding
 import org.ocandroid.di.detail.presentation.ItemDetailViewModel
 import org.ocandroid.di.util.Logger
@@ -15,9 +16,9 @@ import javax.inject.Inject
 private const val ARG_ID_KEY = "id_key"
 private const val ARG_CONTENT_KEY = "content_key"
 
+@AndroidEntryPoint
 class ItemDetailFragment @Inject constructor(
     private val logger: Logger,
-    private val vmFactory: ViewModelProvider.Factory
 ) : Fragment() {
 
     private var binding: ItemDetailFragmentBinding? = null
@@ -27,7 +28,7 @@ class ItemDetailFragment @Inject constructor(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this, vmFactory).get(ItemDetailViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(ItemDetailViewModel::class.java)
 
         arguments?.apply {
             itemId = getString(ARG_ID_KEY, "")

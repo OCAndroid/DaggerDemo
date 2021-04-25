@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import dagger.hilt.android.AndroidEntryPoint
 import org.ocandroid.di.auth.view.AuthedActivity
 import org.ocandroid.di.databinding.FragmentItemListBinding
 import org.ocandroid.di.list.presentation.ItemListViewModel
@@ -14,9 +15,9 @@ import org.ocandroid.di.list.view.adapter.ItemRecyclerViewAdapter
 import org.ocandroid.di.util.Logger
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class ItemListFragment @Inject constructor(
     private val logger: Logger,
-    private val vmFactory: ViewModelProvider.Factory
 ) : Fragment() {
 
     private lateinit var viewModel: ItemListViewModel
@@ -27,7 +28,7 @@ class ItemListFragment @Inject constructor(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this, vmFactory).get(ItemListViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(ItemListViewModel::class.java)
     }
 
     override fun onCreateView(

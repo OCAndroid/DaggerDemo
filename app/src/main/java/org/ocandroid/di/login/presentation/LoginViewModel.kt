@@ -2,10 +2,12 @@ package org.ocandroid.di.login.presentation
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import org.ocandroid.di.login.model.repository.LoginRepository
 import org.ocandroid.di.data.Result
 import javax.inject.Inject
 
+@HiltViewModel
 class LoginViewModel @Inject constructor(
     private val loginRepository: LoginRepository
 ) : ViewModel() {
