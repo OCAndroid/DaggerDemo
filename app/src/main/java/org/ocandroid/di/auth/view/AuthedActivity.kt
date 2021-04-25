@@ -5,11 +5,9 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.FragmentFactory
-import dagger.hilt.EntryPoints
 import dagger.hilt.android.AndroidEntryPoint
 import org.ocandroid.di.R
-import org.ocandroid.di.dagger.component.AuthedComponent
-import org.ocandroid.di.dagger.component.AuthedEntryPoint
+import org.ocandroid.di.dagger.component.AuthedComponentHandler
 import org.ocandroid.di.databinding.ActivityAuthedBinding
 import org.ocandroid.di.detail.view.ItemDetailFragment
 import org.ocandroid.di.list.model.Item
@@ -24,11 +22,12 @@ private const val ARG_USER_NAME_KEY = "user_name_key"
 class AuthedActivity : AppCompatActivity() {
 
     @Inject lateinit var logger: Logger
-    @Inject lateinit var authedComponentBuilder: AuthedComponent.Builder
+    @Inject lateinit var authedComponentHandler: AuthedComponentHandler
     @Inject lateinit var fragmentFactory: FragmentFactory
     private lateinit var binding: ActivityAuthedBinding
-    lateinit var authedComponent: AuthedComponent
-        private set
+
+    /*lateinit var authedComponent: AuthedComponent
+        private set*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,12 +46,7 @@ class AuthedActivity : AppCompatActivity() {
             .build()
         authedComponent.inject(this)*/
 
-        authedComponent = authedComponentBuilder
-            .userId(userId)
-            .userName(userName)
-            .build()
-        logger.logMessage(this.javaClass.simpleName,
-            "Userid: ${EntryPoints.get(authedComponent, AuthedEntryPoint::class.java).getUserId()}")
+        authedComponentHandler.auth(userName, userId)
 
         binding = ActivityAuthedBinding.inflate(layoutInflater)
         setContentView(binding.root)

@@ -1,15 +1,14 @@
 package org.ocandroid.di.dagger.component
 
-import androidx.fragment.app.FragmentFactory
 import dagger.BindsInstance
 import dagger.hilt.DefineComponent
-import dagger.hilt.android.components.ActivityComponent
 import org.ocandroid.di.dagger.UserId
 import org.ocandroid.di.dagger.UserName
 import dagger.hilt.InstallIn
 import dagger.hilt.EntryPoint
+import dagger.hilt.components.SingletonComponent
 
-@DefineComponent(parent = ActivityComponent::class)
+@DefineComponent(parent = SingletonComponent::class)
 interface AuthedComponent {
 
     @DefineComponent.Builder
@@ -28,4 +27,5 @@ interface AuthedComponent {
 @InstallIn(AuthedComponent::class)
 interface AuthedEntryPoint {
     @UserId fun getUserId(): String
+    @UserName fun getUserName(): String
 }
